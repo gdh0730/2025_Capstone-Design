@@ -1,0 +1,54 @@
+# src/main/resources/application.yml
+
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: prod # 기본 프로파일: prod
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ai_store}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: never # 데이터베이스 초기화 스크립트 실행 안함
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+logging:
+  level:
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql: INFO
+
+jwt:
+  secret: ${JWT_SECRET:my-super-secret-key-please-change-this-in-production-environment-1234567890-abcdef-1234567890}
+  expiration: ${JWT_EXPIRATION:3600000} # 기본값 1시간 (밀리초)
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+# 1) Shinobi(VMS) 서버 정보
+shinobi:
+  url: ${SHINOBI_URL:http://172.24.219.145:8080}
+  group-key: ${SHINOBI_GROUP_KEY:poseman}
+  api-key: ${SHINOBI_API_KEY:nJde2GE29gTl144b4olZZACkauxvuf}
+  windowseconds: ${VIDEOS_WINDOW_SECONDS:60}
+
+report:
+  system-user-id: ${REPORT_SYSTEM_USER_ID:11111111-2222-3333-4444-555555555555}
+
+# 2) Backend(프록시) 서버의 Public URL 정보를 따로 추가
+app:
+  backend_url: ${BACKEND_URL:http://localhost:8081}
+  frontend_url: ${FRONTEND_URL:http://localhost:3000}

@@ -1,0 +1,19 @@
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.mypy_cache/
+replay_server/venv/
+
+# Java/Gradle
+**/build/
+**/bin/
+**/.gradle/
+**/.apt_generated/
+**/.apt_generated_tests/

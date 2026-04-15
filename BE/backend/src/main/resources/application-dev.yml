@@ -1,0 +1,63 @@
+# src/main/resources/application-dev.yml
+
+server:
+  port: 3001
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always # 데이터베이스 초기화 스크립트 실행
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # 애플리케이션 시작할 때 스키마를 생성하고, 종료 시 삭제
+    defer-datasource-initialization: true
+    show-sql: true # SQL 로그가 보이도록 true 로 설정
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+logging:
+  level:
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql: INFO
+
+jwt:
+  secret: ${JWT_SECRET:my-super-secret-key-please-change-this-in-production-environment-1234567890-abcdef-1234567890}
+  expiration: ${JWT_EXPIRATION:3600000} # 기본값 1시간 (밀리초)
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+# 1) Shinobi(VMS) 서버 정보
+shinobi:
+  url: ${SHINOBI_URL:https://assistant-dispute-science-advice.trycloudflare.com}
+  group-key: ${SHINOBI_GROUP_KEY:poseman}
+  api-key: ${SHINOBI_API_KEY:nJde2GE29gTl144b4olZZACkauxvuf}
+  windowseconds: ${VIDEOS_WINDOW_SECONDS:65}
+
+report:
+  system-user-id: ${REPORT_SYSTEM_USER_ID:11111111-2222-3333-4444-555555555555}
+
+# 2) Backend(프록시) 서버의 Public URL 정보를 따로 추가
+app:
+  backend_url: ${BACKEND_URL:http://localhost:3001}
+  frontend_url: "${FRONTEND_URL:*}"
